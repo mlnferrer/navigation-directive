@@ -1,0 +1,31 @@
+<ul>
+    <li ng-repeat="node in vm.navigation" cp-navigation-node="node" ng-class="{'collapsed': vm.collapsed, 'has-children': vm.hasChildren}" ng-include="'navigation-nested.html'"></li>
+</ul>
+
+<!-- Nested navigation template -->
+<script type="text/ng-template" id="navigation-nested.html">
+
+    <div cp-navigation-item layout="row" ng-if="!vm.isHidden()">
+
+        <div class="cp-navigation-button" ng-if="!node.uisref && node.title">
+            <i class="icon s20 {{node.icon}}" ng-if="node.icon"></i>
+            <span class="title" translate="{{node.translate}}" flex>{{node.title}}</span>
+            <span class="badge white-fg" ng-style="{'background': node.badge.color}" ng-if="node.badge">{{node.badge.content}}</span>
+            <i class="icon-chevron-right s16 arrow" ng-if="vm.collapsable && vm.hasChildren"></i>
+        </div>
+
+        <a class="cp-navigation-button" ui-sref="{{node.uisref}}" ui-sref-active="active md-accent-bg" ng-if="node.uisref && node.title" ng-click="vm.loadModule($event);">
+            <i class="icon s20 {{node.icon}}" ng-if="node.icon"></i>
+            <span class="title" translate="{{node.translate}}" flex>{{node.title}}</span>
+            <span class="badge white-fg" ng-style="{'background': node.badge.color}" ng-if="node.badge">{{node.badge.content}}</span>
+            <i class="icon-chevron-right s16 arrow" ng-if="vm.collapsable && vm.hasChildren"></i>
+        </a>
+
+    </div>
+
+    <ul ng-if="vm.hasChildren && !vm.isHidden()" style="margin-top:-3px;">
+        <li ng-repeat="node in node.children" cp-navigation-node="node" ng-class="{'collapsed': vm.collapsed, 'has-children': vm.hasChildren}" ng-include="'navigation-nested.html'"></li>
+    </ul>
+
+</script>
+<!-- / Nested navigation template -->
